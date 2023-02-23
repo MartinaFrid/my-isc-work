@@ -66,24 +66,20 @@ class TemperatureStore(DataStore):
 
 class AccumulatingStore(DataStore):
 
-    # def __init__(self):
-    #     super().__init__() # for this class we 
+    def __init__(self):
+        super().__init__()
+        self.accumulation = []
       
     def add_measurement(self, date, value):
-        """
-        Add measurement to the accumulation
 
-        :param date: Date of measurement
-        :param value: Measurement value
-        """
+        super().add_measurement(date, value)
 
-        self.times.append(date)
-        
-        last_measurement = 0
+        # set a 0 value for the case where this is the first measurement
+        last_acc = 0
 
-        # Get the last measurement if we already have some
-        if self.measurements:
-            last_measurement = self.measurements[-1]
+        # Get the last accumulated value if we already have some
+        if self.accumulation:
+            last_acc = self.accumulation[-1]
 
-        # add the accumulated value
-        self.measurements.append(last_measurement + value)
+            # add the accumulated value
+            self.accumulation.append(last_acc + value)
